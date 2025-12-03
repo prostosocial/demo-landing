@@ -36,10 +36,15 @@ function openPopup(title, iconId, contentFile, action, isEnabledBlur = true) {
         })
         .then(content => {
             contentContainer.innerHTML = content;
-            
+
+            // Синхронизировать тариф если это попап оплаты
+            if (contentFile.includes('tiers.html')) {
+                setTimeout(syncTierInPopup, 50);
+            }
+
             requestAnimationFrame(() => {
                 popupContent.classList.add('show');
-            });        
+            });
         })
         .catch(error => {
             console.error('Ошибка при загрузке содержимого:', error);
@@ -159,6 +164,35 @@ function toggleOption(option) {
 var card = 'russian';
 var tier = 'tier1';
 
+// Выбор тарифа на основном экране
+function selectPricingOption(element, tierType) {
+    tier = tierType;
+
+    const options = document.querySelectorAll('.pricing-option');
+    options.forEach(opt => opt.classList.remove('pricing-option-active'));
+    element.classList.add('pricing-option-active');
+}
+
+// Синхронизация тарифа в попапе при открытии
+function syncTierInPopup() {
+    const tier1 = document.getElementById('tier-1');
+    const tier2 = document.getElementById('tier-2');
+
+    if (tier1 && tier2) {
+        if (tier === 'tier1') {
+            tier1.classList.add('selected');
+            tier2.classList.remove('selected');
+            const slider = tier1.parentElement.querySelector('.toggler-slider');
+            if (slider) slider.style.transform = 'translateY(0%)';
+        } else {
+            tier1.classList.remove('selected');
+            tier2.classList.add('selected');
+            const slider = tier1.parentElement.querySelector('.toggler-slider');
+            if (slider) slider.style.transform = 'translateY(100%)';
+        }
+    }
+}
+
 function choosePaymentMethod(cardType, option){
 
   card = cardType;
@@ -270,9 +304,11 @@ const collectionSlider = document.querySelector('.collection-slider');
 if (collectionSlider) {
     const slides = collectionSlider.querySelectorAll('.collection-preview');
     const dots = collectionSlider.querySelectorAll('.slider-dot');
+    const prevBtn = collectionSlider.querySelector('.slider-arrow-prev');
+    const nextBtn = collectionSlider.querySelector('.slider-arrow-next');
     let currentSlide = 0;
     let sliderInterval = null;
-    const SLIDE_DURATION = 2500;
+    const SLIDE_DURATION = 6000;
 
     function goToSlide(index) {
         slides.forEach(slide => slide.classList.remove('active'));
@@ -286,6 +322,11 @@ if (collectionSlider) {
     function nextSlide() {
         const next = (currentSlide + 1) % slides.length;
         goToSlide(next);
+    }
+
+    function prevSlide() {
+        const prev = (currentSlide - 1 + slides.length) % slides.length;
+        goToSlide(prev);
     }
 
     function startAutoSlide() {
@@ -308,10 +349,119 @@ if (collectionSlider) {
         });
     });
 
+    // Клик по стрелкам
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            prevSlide();
+            startAutoSlide();
+        });
+    }
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            nextSlide();
+            startAutoSlide();
+        });
+    }
+
     // Пауза при наведении
     collectionSlider.addEventListener('mouseenter', stopAutoSlide);
     collectionSlider.addEventListener('mouseleave', startAutoSlide);
 
+    // Запуск автослайда при появлении во viewport
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                startAutoSlide();
+            } else {
+                stopAutoSlide();
+            }
+        });
+    }, { threshold: 0.3 });
+
+    observer.observe(collectionSlider);
+}
+
+// ===== Testimonial Slider =====
+const testimonialSlider = document.querySelector('.testimonial-slider');
+if (testimonialSlider) {
+    const slides = testimonialSlider.querySelectorAll('.testimonial-slide');
+    const dots = testimonialSlider.querySelectorAll('.testimonial-dot');
+    const prevBtn = testimonialSlider.querySelector('.slider-arrow-prev');
+    const nextBtn = testimonialSlider.querySelector('.slider-arrow-next');
+    let currentSlide = 0;
+    let sliderInterval = null;
+    const SLIDE_DURATION = 4000;
+
+    function goToSlide(index) {
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+
+        slides[index].classList.add('active');
+        dots[index].classList.add('active');
+        currentSlide = index;
+    }
+
+    function nextSlide() {
+        const next = (currentSlide + 1) % slides.length;
+        goToSlide(next);
+    }
+
+    function prevSlide() {
+        const prev = (currentSlide - 1 + slides.length) % slides.length;
+        goToSlide(prev);
+    }
+
+    function startAutoSlide() {
+        if (sliderInterval) clearInterval(sliderInterval);
+        sliderInterval = setInterval(nextSlide, SLIDE_DURATION);
+    }
+
+    function stopAutoSlide() {
+        if (sliderInterval) {
+            clearInterval(sliderInterval);
+            sliderInterval = null;
+        }
+    }
+
+    // Клик по точкам
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            goToSlide(index);
+            startAutoSlide();
+        });
+    });
+
+    // Клик по стрелкам
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            prevSlide();
+            startAutoSlide();
+        });
+    }
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            nextSlide();
+            startAutoSlide();
+        });
+    }
+
+    // Пауза при наведении
+    testimonialSlider.addEventListener('mouseenter', stopAutoSlide);
+    testimonialSlider.addEventListener('mouseleave', startAutoSlide);
+
     // Запуск автослайда
     startAutoSlide();
+}
+
+// ===== FAQ Preview Accordion =====
+function toggleFaqPreview(item) {
+    const content = item.querySelector('.faq-preview-content');
+    const contentInner = content.querySelector('.faq-preview-content-inner');
+    const isActive = item.classList.toggle('active');
+
+    if (isActive) {
+        content.style.maxHeight = contentInner.offsetHeight + 'px';
+    } else {
+        content.style.maxHeight = '0px';
+    }
 }
