@@ -887,34 +887,38 @@ input::placeholder {
     max-width: 380px;
 }
 
+/* Swiper overrides */
+.collection-slider.swiper {
+    overflow: visible;
+}
+
+.testimonial-slider.swiper {
+    overflow: hidden;
+}
+
+.collection-slider .swiper-slide {
+    height: auto;
+}
+
+.testimonial-slider .swiper-slide.testimonial-slide {
+    height: 220px;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+}
+
 .collection-slides {
-    position: relative;
-    height: 540px;
     margin-bottom: 24px;
 }
 
 /* Collection Preview */
 .collection-preview {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
     background: var(--form-color);
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 380px;
-    opacity: 0;
-    transform: scale(0.98);
-    transition: opacity 0.4s ease, transform 0.4s ease;
-    pointer-events: none;
-}
-
-.collection-preview.active {
-    opacity: 1;
-    transform: scale(1);
-    pointer-events: auto;
 }
 
 /* Slider Navigation Dots */
@@ -1154,18 +1158,22 @@ input::placeholder {
         padding: 6px 12px;
     }
 
+    .section-block:first-child .section-visual {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
     .collection-slider {
-        max-width: 100%;
+        max-width: 340px;
     }
 
     .collection-slides {
-        height: 480px;
-        margin-bottom: 20px;
+        margin-bottom: 24px;
     }
 
     .collection-preview {
         max-width: 100%;
-        min-width: 300px;
     }
 
     .slider-nav {
@@ -1482,24 +1490,20 @@ input::placeholder {
 }
 
 .testimonial-slides {
-    position: relative;
-    min-height: 200px;
 }
 
 .testimonial-slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
     background: var(--bg-color);
     border: 1px solid var(--secondary-color);
     border-radius: 20px;
     padding: 28px;
-    opacity: 0;
-    transform: scale(0.98);
-    transition: opacity 0.4s ease, transform 0.4s ease;
-    pointer-events: none;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 200px;
+    height: 100%;
 }
 
 .section-block:nth-child(even) .testimonial-slide {
@@ -1508,13 +1512,6 @@ input::placeholder {
 
 .section-block:nth-child(odd) .testimonial-slide {
     background: var(--form-color);
-}
-
-.testimonial-slide.active {
-    opacity: 1;
-    transform: scale(1);
-    pointer-events: auto;
-    position: relative;
 }
 
 .testimonial-slide p {
@@ -1532,6 +1529,7 @@ input::placeholder {
     font-weight: 600;
     font-size: 15px;
     color: var(--accent-color);
+    margin-top: auto;
 }
 
 .testimonial-user img {
@@ -1654,6 +1652,11 @@ input::placeholder {
     transition: transform 0.2s ease, box-shadow 0.3s ease;
     box-shadow: 0 0 30px rgba(78, 113, 197, 0.4);
     margin-top: 8px;
+}
+
+/* Мобильная кнопка скрыта по умолчанию */
+.section-cta-mobile {
+    display: none;
 }
 
 .section-cta:hover {
@@ -1869,20 +1872,9 @@ input::placeholder {
 .tiers-wrapper {
     max-width: 500px;
     margin: 0 auto;
-    padding: 15vh 0 40px 0;
+    padding: 5vh 0 40px 0;
 }
 
-@media (max-width: 768px) {
-    .tiers-wrapper {
-        padding-top: 10vh;
-    }
-}
-
-@media (max-width: 480px) {
-    .tiers-wrapper {
-        padding-top: 5vh;
-    }
-}
 
 .tiers-popup-content {
     max-width: 500px;
@@ -1960,20 +1952,24 @@ input::placeholder {
 
     .section-layout {
         flex-direction: column !important;
-        gap: 40px;
+        gap: 24px;
         text-align: center;
     }
 
     .section-text {
         max-width: 100%;
+        align-items: center;
+        text-align: center;
     }
 
     .section-visual {
         max-width: 100%;
+        width: 100%;
     }
 
     .section-visual-card,
-    .section-testimonial {
+    .section-testimonial,
+    .pricing-card {
         max-width: 100%;
     }
 
@@ -1988,6 +1984,64 @@ input::placeholder {
 
     .section-actions {
         justify-content: center;
+        width: 100%;
+    }
+
+    .section-hint {
+        display: none;
+    }
+
+    .section-list {
+        width: 100%;
+        align-items: center;
+    }
+
+    .pricing-options {
+        width: 100%;
+    }
+
+    .section-cta,
+    .section-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+
+    /* Скрыть основную кнопку в section-text на мобиле */
+    .section-text .section-cta {
+        display: none;
+    }
+
+    /* Показать мобильную кнопку под визуалом */
+    .section-cta-mobile {
+        display: flex;
+        margin-top: 0;
+    }
+
+    /* НЕ центрировать текст внутри карточек подборок */
+    .collection-body,
+    .collection-section,
+    .collection-desc,
+    .collection-section-title,
+    .timeline-content {
+        text-align: left;
+    }
+
+    /* НЕ центрировать текст внутри мокапа приложения */
+    .app-interface-mockup,
+    .mockup-post,
+    .mockup-post-title,
+    .mockup-post-desc,
+    .mockup-section-header {
+        text-align: left;
+    }
+
+    /* НЕ центрировать текст внутри FAQ */
+    .faq-preview-card,
+    .faq-preview-header,
+    .faq-preview-content,
+    .faq-preview-content-inner {
+        text-align: left;
     }
 }
 
@@ -2251,12 +2305,17 @@ input::placeholder {
 /* Mobile mockup */
 @media screen and (max-width: 768px) {
     .app-interface-mockup {
-        max-width: 100%;
+        max-width: 340px;
     }
 
     .mockup-collection-card {
-        width: 64px;
-        height: 64px;
+        width: 80px;
+        height: 80px;
+    }
+
+    .mockup-progress-ring {
+        width: 76px;
+        height: 76px;
     }
 }
 
@@ -2524,5 +2583,28 @@ input::placeholder {
     .faq-preview-icon svg {
         width: 16px;
         height: 16px;
+    }
+
+    .join-benefits {
+        display: none;
+    }
+
+    /* Mobile slider - show side slides */
+    .collection-slider.swiper,
+    .testimonial-slider.swiper {
+        overflow: visible;
+    }
+
+    .collection-preview,
+    .testimonial-slide {
+        opacity: 0.5;
+        transform: scale(0.95);
+        transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .collection-preview.swiper-slide-active,
+    .testimonial-slide.swiper-slide-active {
+        opacity: 1;
+        transform: scale(1);
     }
 }

@@ -299,159 +299,105 @@ form.addEventListener('submit', function(e) {
 });
 
 
-// ===== Collection Slider =====
-const collectionSlider = document.querySelector('.collection-slider');
-if (collectionSlider) {
-    const slides = collectionSlider.querySelectorAll('.collection-preview');
-    const dots = collectionSlider.querySelectorAll('.slider-dot');
-    const prevBtn = collectionSlider.querySelector('.slider-arrow-prev');
-    const nextBtn = collectionSlider.querySelector('.slider-arrow-next');
-    let currentSlide = 0;
-    let sliderInterval = null;
-    const SLIDE_DURATION = 6000;
+// ===== Responsive Sliders (Swiper) =====
+const MOBILE_BREAKPOINT = 768;
 
-    function goToSlide(index) {
-        slides.forEach(slide => slide.classList.remove('active'));
-        dots.forEach(dot => dot.classList.remove('active'));
+// Base configs
+const collectionBaseConfig = {
+    loop: true,
+    autoplay: {
+        delay: 6000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true
+    },
+    pagination: {
+        el: '.collection-slider .slider-dots',
+        clickable: true,
+        bulletClass: 'slider-dot',
+        bulletActiveClass: 'active'
+    },
+    navigation: {
+        nextEl: '.collection-slider .slider-arrow-next',
+        prevEl: '.collection-slider .slider-arrow-prev'
+    }
+};
 
-        slides[index].classList.add('active');
-        dots[index].classList.add('active');
-        currentSlide = index;
+const testimonialBaseConfig = {
+    loop: true,
+    autoplay: {
+        delay: 4000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true
+    },
+    pagination: {
+        el: '.testimonial-slider .testimonial-dots',
+        clickable: true,
+        bulletClass: 'testimonial-dot',
+        bulletActiveClass: 'active'
+    },
+    navigation: {
+        nextEl: '.testimonial-slider .slider-arrow-next',
+        prevEl: '.testimonial-slider .slider-arrow-prev'
+    }
+};
+
+// Mobile config additions
+const mobileConfig = {
+    slidesPerView: 1.15,
+    centeredSlides: true,
+    spaceBetween: 12
+};
+
+// Desktop config additions
+const desktopConfig = {
+    slidesPerView: 1,
+    effect: 'fade',
+    fadeEffect: { crossFade: true }
+};
+
+let collectionSwiper = null;
+let testimonialSwiper = null;
+let currentMode = null;
+
+function initSwipers() {
+    const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
+    const newMode = isMobile ? 'mobile' : 'desktop';
+
+    if (currentMode === newMode) return;
+    currentMode = newMode;
+
+    // Destroy existing swipers
+    if (collectionSwiper) {
+        collectionSwiper.destroy(true, true);
+        collectionSwiper = null;
+    }
+    if (testimonialSwiper) {
+        testimonialSwiper.destroy(true, true);
+        testimonialSwiper = null;
     }
 
-    function nextSlide() {
-        const next = (currentSlide + 1) % slides.length;
-        goToSlide(next);
-    }
+    const modeConfig = isMobile ? mobileConfig : desktopConfig;
 
-    function prevSlide() {
-        const prev = (currentSlide - 1 + slides.length) % slides.length;
-        goToSlide(prev);
-    }
-
-    function startAutoSlide() {
-        if (sliderInterval) clearInterval(sliderInterval);
-        sliderInterval = setInterval(nextSlide, SLIDE_DURATION);
-    }
-
-    function stopAutoSlide() {
-        if (sliderInterval) {
-            clearInterval(sliderInterval);
-            sliderInterval = null;
-        }
-    }
-
-    // Клик по точкам
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            goToSlide(index);
-            startAutoSlide();
-        });
+    collectionSwiper = new Swiper('.collection-slider', {
+        ...collectionBaseConfig,
+        ...modeConfig
     });
 
-    // Клик по стрелкам
-    if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
-            prevSlide();
-            startAutoSlide();
-        });
-    }
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            nextSlide();
-            startAutoSlide();
-        });
-    }
-
-    // Пауза при наведении
-    collectionSlider.addEventListener('mouseenter', stopAutoSlide);
-    collectionSlider.addEventListener('mouseleave', startAutoSlide);
-
-    // Запуск автослайда при появлении во viewport
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                startAutoSlide();
-            } else {
-                stopAutoSlide();
-            }
-        });
-    }, { threshold: 0.3 });
-
-    observer.observe(collectionSlider);
-}
-
-// ===== Testimonial Slider =====
-const testimonialSlider = document.querySelector('.testimonial-slider');
-if (testimonialSlider) {
-    const slides = testimonialSlider.querySelectorAll('.testimonial-slide');
-    const dots = testimonialSlider.querySelectorAll('.testimonial-dot');
-    const prevBtn = testimonialSlider.querySelector('.slider-arrow-prev');
-    const nextBtn = testimonialSlider.querySelector('.slider-arrow-next');
-    let currentSlide = 0;
-    let sliderInterval = null;
-    const SLIDE_DURATION = 4000;
-
-    function goToSlide(index) {
-        slides.forEach(slide => slide.classList.remove('active'));
-        dots.forEach(dot => dot.classList.remove('active'));
-
-        slides[index].classList.add('active');
-        dots[index].classList.add('active');
-        currentSlide = index;
-    }
-
-    function nextSlide() {
-        const next = (currentSlide + 1) % slides.length;
-        goToSlide(next);
-    }
-
-    function prevSlide() {
-        const prev = (currentSlide - 1 + slides.length) % slides.length;
-        goToSlide(prev);
-    }
-
-    function startAutoSlide() {
-        if (sliderInterval) clearInterval(sliderInterval);
-        sliderInterval = setInterval(nextSlide, SLIDE_DURATION);
-    }
-
-    function stopAutoSlide() {
-        if (sliderInterval) {
-            clearInterval(sliderInterval);
-            sliderInterval = null;
-        }
-    }
-
-    // Клик по точкам
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            goToSlide(index);
-            startAutoSlide();
-        });
+    testimonialSwiper = new Swiper('.testimonial-slider', {
+        ...testimonialBaseConfig,
+        ...modeConfig
     });
-
-    // Клик по стрелкам
-    if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
-            prevSlide();
-            startAutoSlide();
-        });
-    }
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            nextSlide();
-            startAutoSlide();
-        });
-    }
-
-    // Пауза при наведении
-    testimonialSlider.addEventListener('mouseenter', stopAutoSlide);
-    testimonialSlider.addEventListener('mouseleave', startAutoSlide);
-
-    // Запуск автослайда
-    startAutoSlide();
 }
+
+// Initialize on load
+initSwipers();
+
+// Reinitialize on resize (debounced)
+let resizeTimeout;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(initSwipers, 150);
+});
 
 // ===== FAQ Preview Accordion =====
 function toggleFaqPreview(item) {

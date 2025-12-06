@@ -11,6 +11,7 @@
     <meta name="theme-color" content="#0f1116" media="(prefers-color-scheme: dark)">
 
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <link rel="prefetch" href="content/faq.html">
     <link rel="prefetch" href="content/feedback.html">
@@ -229,17 +230,17 @@
                         <div class="section-number">1</div>
                         <h2 class="section-title">Знания, которые работают</h2>
                         <p class="section-desc">Годы поиска и фильтрации информации — уже сделаны за вас. Только проверенные знания, готовые к применению.</p>
-                        <p class="section-hint">← Так это выглядит в нашем приложении</p>
+                        <p class="section-hint"><span class="hint-arrow">← </span>Так это выглядит в нашем приложении</p>
                         <button class="section-cta" aria-label="Открыть базу знаний сообщества" onclick="ym(101629928,'reachGoal','KNOWLEDGE_BASE_CLICK'); openPopup('Материалы Сообщества', '#icon-book', 'content/materials.html', closePopup)">
                             <svg class="icon small" aria-hidden="true"><use href="#icon-book" /></svg>
                             <span>Ознакомиться с базой знаний</span>
                         </button>
                     </div>
                     <div class="section-visual">
-                        <div class="collection-slider">
-                            <div class="collection-slides">
+                        <div class="collection-slider swiper">
+                            <div class="collection-slides swiper-wrapper">
                                 <!-- Слайд 1: Отношения и семья -->
-                                <div class="collection-preview active" data-slide="0">
+                                <div class="collection-preview swiper-slide active" data-slide="0">
                                     <div class="collection-header">
                                         <img src="https://strapi.prostodev.space/uploads/d2431821d9156a7667babcb033474bef_daf2b54f42.jpg" alt="Отношения и семья">
                                         <div class="collection-header-overlay"></div>
@@ -294,7 +295,7 @@
                                 </div>
 
                                 <!-- Слайд 2: Практики здоровья -->
-                                <div class="collection-preview" data-slide="1">
+                                <div class="collection-preview swiper-slide" data-slide="1">
                                     <div class="collection-header">
                                         <img src="https://strapi.prostodev.space/uploads/Serdcze_ea353c3eaa.png" alt="Практики здоровья">
                                         <div class="collection-header-overlay"></div>
@@ -349,7 +350,7 @@
                                 </div>
 
                                 <!-- Слайд 3: Сон -->
-                                <div class="collection-preview" data-slide="2">
+                                <div class="collection-preview swiper-slide" data-slide="2">
                                     <div class="collection-header">
                                         <img src="https://strapi.prostodev.space/uploads/large_6a3e191d1f582198a551f92ddf185543_f4b459bf5d.jpg" alt="Сон">
                                         <div class="collection-header-overlay"></div>
@@ -404,7 +405,7 @@
                                 </div>
 
                                 <!-- Слайд 4: Питание -->
-                                <div class="collection-preview" data-slide="3">
+                                <div class="collection-preview swiper-slide" data-slide="3">
                                     <div class="collection-header">
                                         <img src="https://strapi.prostodev.space/uploads/large_edd2f416_cc66_4b55_8a31_17dbe9f15581_1_6f9fb29dfb.png" alt="Питание">
                                         <div class="collection-header-overlay"></div>
@@ -459,7 +460,7 @@
                                 </div>
 
                                 <!-- Слайд 5: Счастье и стабильность -->
-                                <div class="collection-preview" data-slide="4">
+                                <div class="collection-preview swiper-slide" data-slide="4">
                                     <div class="collection-header">
                                         <img src="https://strapi.prostodev.space/uploads/large_4ae3fc6bd62cfb5dfdadfb18f1cf7405_7e74e77634.jpg" alt="Счастье и стабильность">
                                         <div class="collection-header-overlay"></div>
@@ -514,7 +515,7 @@
                                 </div>
 
                                 <!-- Слайд 6: Обучение -->
-                                <div class="collection-preview" data-slide="5">
+                                <div class="collection-preview swiper-slide" data-slide="5">
                                     <div class="collection-header">
                                         <img src="https://strapi.prostodev.space/uploads/large_32979141_00e1_470e_97e1_5e92bb036533_1_839c2f7c0f.png" alt="Обучение">
                                         <div class="collection-header-overlay"></div>
@@ -569,7 +570,7 @@
                                 </div>
 
                                 <!-- Слайд 7: IQ -->
-                                <div class="collection-preview" data-slide="6">
+                                <div class="collection-preview swiper-slide" data-slide="6">
                                     <div class="collection-header">
                                         <img src="https://strapi.prostodev.space/uploads/large_37f5b65d_569f_4208_ada9_a9f9f2800a0a_1_29c526d445.png" alt="IQ">
                                         <div class="collection-header-overlay"></div>
@@ -644,6 +645,11 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Кнопка для мобильной версии (под слайдером) -->
+                    <button class="section-cta section-cta-mobile" aria-label="Открыть базу знаний сообщества" onclick="ym(101629928,'reachGoal','KNOWLEDGE_BASE_CLICK'); openPopup('Материалы Сообщества', '#icon-book', 'content/materials.html', closePopup)">
+                        <svg class="icon small" aria-hidden="true"><use href="#icon-book" /></svg>
+                        <span>Ознакомиться с базой знаний</span>
+                    </button>
                 </div>
             </div>
 
@@ -654,7 +660,7 @@
                         <div class="section-number">2</div>
                         <h2 class="section-title">Продуманный путь саморазвития</h2>
                         <p class="section-desc">Мы собрали все материалы в удобную базу. Можно идти по готовым подборкам шаг за шагом — или искать нужное самостоятельно через поиск и фильтры.</p>
-                        <p class="section-hint">Так это выглядит в нашем приложении →</p>
+                        <p class="section-hint">Так это выглядит в нашем приложении<span class="hint-arrow"> →</span></p>
                     </div>
                     <div class="section-visual">
                         <div class="app-interface-mockup">
@@ -787,37 +793,37 @@
                         </button>
                     </div>
                     <div class="section-visual">
-                        <div class="testimonial-slider">
-                            <div class="testimonial-slides">
-                                <div class="testimonial-slide active" data-slide="0">
-                                    <p>«За 10 месяцев: −8 кг, −4% жира, −2 висцерального. Зарядился заниматься спортом и теперь мониторю параметры тела. Спасибо ПС!»</p>
+                        <div class="testimonial-slider swiper">
+                            <div class="testimonial-slides swiper-wrapper">
+                                <div class="testimonial-slide swiper-slide active" data-slide="0">
+                                    <p>«За 10 месяцев: −8 кг, −4% жира, −2 висцерального. Зарядился заниматься спортом и теперь мониторю параметры тела»</p>
                                     <div class="testimonial-user">
                                         <span>@nomad</span>
                                         <img src="avatars/man_5.png" alt="avatar">
                                     </div>
                                 </div>
-                                <div class="testimonial-slide" data-slide="1">
+                                <div class="testimonial-slide swiper-slide" data-slide="1">
                                     <p>«Пропала постоянная тревога. В жизни реально появилась дорога. Подписка окупилась миллион раз»</p>
                                     <div class="testimonial-user">
                                         <span>@SyzuyaJuzo</span>
                                         <img src="avatars/woman_2.png" alt="avatar">
                                     </div>
                                 </div>
-                                <div class="testimonial-slide" data-slide="2">
+                                <div class="testimonial-slide swiper-slide" data-slide="2">
                                     <p>«Закрывал моё одиночество на 95%. Ничего подобного про соцсети не могу сказать»</p>
                                     <div class="testimonial-user">
                                         <span>@shurik</span>
                                         <img src="avatars/shurik.png" alt="avatar">
                                     </div>
                                 </div>
-                                <div class="testimonial-slide" data-slide="3">
+                                <div class="testimonial-slide swiper-slide" data-slide="3">
                                     <p>«Научился любить, прощать, быть благодарным. Научился дисциплине. Научился жить»</p>
                                     <div class="testimonial-user">
                                         <span>@velgelm</span>
                                         <img src="avatars/man_1.png" alt="avatar">
                                     </div>
                                 </div>
-                                <div class="testimonial-slide" data-slide="4">
+                                <div class="testimonial-slide swiper-slide" data-slide="4">
                                     <p>«Я во многих сообществах брал подписку. Простое сообщество — самое топовое»</p>
                                     <div class="testimonial-user">
                                         <span>@levon_dalakyan</span>
@@ -842,6 +848,11 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Кнопка для мобильной версии -->
+                    <button class="section-cta section-cta-mobile" onclick="ym(101629928,'reachGoal','FEEDBACK_CLICK'); openPopup('Отзывы участников', '#icon-star', 'content/feedback.html', closePopup)">
+                        <svg class="icon small"><use href="#icon-star" /></svg>
+                        <span>Читать все отзывы</span>
+                    </button>
                 </div>
             </div>
 
@@ -888,6 +899,11 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Кнопка для мобильной версии -->
+                    <button class="section-cta section-cta-mobile" onclick="ym(101629928,'reachGoal','RECENT_MATERIAL_CLICK'); openPopup('Недавний материал', '#icon-bookmark', 'content/free_material.html', closePopup)">
+                        <svg class="icon small"><use href="#icon-bookmark" /></svg>
+                        <span>Посмотреть недавний материал</span>
+                    </button>
                 </div>
             </div>
 
@@ -997,6 +1013,11 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Кнопка для мобильной версии -->
+                    <button class="section-cta section-cta-mobile" onclick="ym(101629928,'reachGoal','FAQ_CLICK'); openPopup('FAQ', '#icon-tag', 'content/faq.html', closePopup)">
+                        <svg class="icon small"><use href="#icon-tag" /></svg>
+                        <span>Посмотреть весь FAQ</span>
+                    </button>
                 </div>
             </div>
 
@@ -1083,6 +1104,7 @@
     
 
 
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
         <script type="text/javascript" src="code.js"></script>
 
         <script>
